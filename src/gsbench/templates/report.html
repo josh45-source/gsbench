@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<style>
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 2rem auto;
+    max-width: 960px;
+    color: #1a1a1a;
+    background: #fafafa;
+  }
+  h1, h2, h3 { color: #222; }
+  table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; background: #fff; }
+  th, td { border: 1px solid #ddd; padding: 0.5rem 0.75rem; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: #f0f0f0; }
+  .meta { color: #555; margin-bottom: 1.5rem; }
+  .plot { max-width: 100%; margin: 1rem 0; border: 1px solid #ddd; border-radius: 4px; }
+  section { margin-bottom: 2.5rem; }
+  .model-section { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+  <h1>{{ title }}</h1>
+  <p class="meta">Generated {{ generated_at }} &middot; gsbench v{{ gsbench_version }}</p>
+
+  <section>
+    <h2>Data Summary</h2>
+    <table>
+      <tr><th>Trait</th><td>{{ trait_name or "n/a" }}</td></tr>
+      <tr><th>Samples</th><td>{{ n_samples }}</td></tr>
+      <tr><th>Markers</th><td>{{ n_markers }}</td></tr>
+    </table>
+  </section>
+
+  {% if preprocessing_summary %}
+  <section>
+    <h2>Preprocessing Summary</h2>
+    <table>
+      {% for key, value in preprocessing_summary.items() %}
+      <tr><th>{{ key }}</th><td>{{ value }}</td></tr>
+      {% endfor %}
+    </table>
+  </section>
+  {% endif %}
+
+  <section>
+    <h2>Model Comparison</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th><th>r</th><th>r2</th><th>RMSE</th><th>Spearman</th><th>Runtime (s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr>
+          <td>{{ result.model_abbreviation }}</td>
+          <td>{{ "%.3f"|format(result.mean_metrics.get("r", 0) or 0) }}</td>
+          <td>{{ "%.3f"|format(result.mean_metrics.get("r2", 0) or 0) }}</td>
+          <td>{{ "%.3f"|format(result.mean_metrics.get("rmse", 0) or 0) }}</td>
+          <td>{{ "%.3f"|format(result.mean_metrics.get("spearman", 0) or 0) }}</td>
+          <td>{{ "%.2f"|format(result.total_time_seconds) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Diagnostic Plots</h2>
+    {% for name, image_b64 in plots.items() %}
+    <h3>{{ name.replace("_", " ")|title }}</h3>
+    <img class="plot" src="data:image/png;base64,{{ image_b64 }}" alt="{{ name }}">
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Per-Model Details</h2>
+    {% for result in results %}
+    <div class="model-section">
+      <h3>{{ result.model_name }} ({{ result.model_abbreviation }})</h3>
+      <table>
+        <thead>
+          <tr>
+            {% for key in metric_keys %}<th>{{ key }}</th>{% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for key in metric_keys %}<td>{{ "%.4f"|format(result.mean_metrics.get(key, 0) or 0) }}</td>{% endfor %}
+          </tr>
+        </tbody>
+      </table>
+      <p>Folds: {{ result.per_fold_metrics|length }} &middot; Total time: {{ "%.2f"|format(result.total_time_seconds) }}s</p>
+    </div>
+    {% endfor %}
+  </section>
+</body>
+</html>

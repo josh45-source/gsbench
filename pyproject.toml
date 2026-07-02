@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gsbench"
+version = "0.1.0"
+description = "Genomic Selection Model Benchmarking CLI for Plant Breeding"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Joash Joshua Ayo" },
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "typer[all]",
+    "rich",
+    "matplotlib",
+    "seaborn",
+    "jinja2",
+]
+
+[project.optional-dependencies]
+full = [
+    "xgboost",
+    "lightgbm",
+]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+
+[project.scripts]
+gsbench = "gsbench.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/josh45-source/gsbench"
+Issues = "https://github.com/josh45-source/gsbench/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gsbench = ["templates/*.html", "data/*.csv"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
