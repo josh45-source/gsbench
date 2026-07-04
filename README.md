@@ -8,7 +8,7 @@
 
 gsbench cross-validates genomic selection models on your genotype/phenotype
 data and produces a comparison report with prediction accuracy, bias
-diagnostics, and plots — from a single command.
+diagnostics, and plots from a single command.
 
 ## Installation
 
@@ -104,7 +104,7 @@ adding a new one is a matter of subclassing `gsbench.models.base.GSModel`.
 ## Metrics
 
 Each fold reports `r` (Pearson correlation), `r2`, `rmse`, `mae`, `bias`,
-`slope` (regression of observed on predicted — should be ~1), `spearman`
+`slope` (regression of observed on predicted should be ~1), `spearman`
 (rank correlation), and `nrmse`. Breeders care most about **r** (prediction
 accuracy) and **spearman** (does the model rank genotypes correctly for
 selection?).
@@ -126,9 +126,9 @@ diagnostic, a runtime comparison, and per-model detail tables.
 
 gsbench is part of a small plant-breeding data pipeline:
 
-- [brapiR2](https://github.com/josh45-source/brapiR2) — pull data from BrAPI servers
-- [phenoQC](https://github.com/josh45-source/phenoQC) — QC for phenotypic trial data
-- [vcf2dosage](https://github.com/josh45-source/vcf2dosage) — VCF to dosage matrix conversion
+- [brapiR2](https://github.com/josh45-source/brapiR2) - pull data from BrAPI servers
+- [phenoQC](https://github.com/josh45-source/phenoQC) - QC for phenotypic trial data
+- [vcf2dosage](https://github.com/josh45-source/vcf2dosage) - VCF to dosage matrix conversion
 - **gsbench** — benchmark genomic selection models
 
 Pipeline: **retrieve** → **clean** → **prepare genotypes** → **benchmark models**
