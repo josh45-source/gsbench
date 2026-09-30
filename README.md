@@ -122,23 +122,8 @@ Predicted vs. observed phenotypes per model:
 The full HTML report also includes a boxplot of per-fold accuracy, a bias
 diagnostic, a runtime comparison, and per-model detail tables.
 
-## Companion Tools
-
-gsbench is part of a small plant-breeding data pipeline:
-
-- [brapiR2](https://github.com/josh45-source/brapiR2) - pull data from BrAPI servers
-- [phenoQC](https://github.com/josh45-source/phenoQC) - QC for phenotypic trial data
-- [vcf2dosage](https://github.com/josh45-source/vcf2dosage) - VCF to dosage matrix conversion
-- **gsbench** — benchmark genomic selection models
-
 Pipeline: **retrieve** → **clean** → **prepare genotypes** → **benchmark models**
 
 ## License
 
 MIT
-
-## Support This Project
-
-If gsbench has been useful to you, please consider sponsoring its development on Patreon — it helps keep the project maintained.
-
-[![Support on Patreon](https://img.shields.io/badge/Patreon-Support-f96854?logo=patreon&logoColor=white)](https://www.patreon.com/c/Joshfarm/membership)
